@@ -1,6 +1,6 @@
 import React from "react";
 import LazyLoadModule from "./LazyLoadModule";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 class App extends React.Component {
   // Pass certain params that will load the Module
   renderLazy(props) {

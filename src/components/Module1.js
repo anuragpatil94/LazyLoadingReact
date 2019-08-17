@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import reducer from "./../reducers/module1";
 class Module1 extends React.Component {
   render() {
-    console.log(this.props);
-
     return (
       <div>
         Module1

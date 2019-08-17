@@ -19,25 +19,19 @@ export default class LazyLoadModule extends React.Component {
 
       const { resolve } = this.props;
       const { default: module } = await resolve();
+
+      // const { name, reducers } = module;
       console.log(module);
 
-      const { name, reducers } = module;
-      const { store } = this.context;
-      console.log(store);
-
-      if (name && store && reducers) store.addDynamicModule({ name, reducers });
       this.setState({ module });
     } catch (error) {
       this.setState({ hasError: error });
     }
   }
 
-  componentWillUnmount() {
-    const { module } = this.state;
-    const { store } = this.context;
-    const { name } = module;
-    if (store && name) store.removeDynamicModule(name);
-  }
+  // componentWillUnmount() {
+  //   const { module } = this.state;
+  // }
 
   render() {
     const { module, hasError } = this.state;
@@ -51,7 +45,7 @@ export default class LazyLoadModule extends React.Component {
   }
 }
 
-LazyLoadModule.contextType = {
+LazyLoadModule.contextTypes = {
   store: PropTypes.object
 };
 
