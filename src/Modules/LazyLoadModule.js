@@ -1,7 +1,11 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+import { ReactReduxContext } from "react-redux";
+import { injectAsyncReducers } from "./../store";
 
 export default class LazyLoadModule extends React.Component {
+  static contextType = ReactReduxContext;
+
   constructor() {
     super();
     this.state = {
@@ -16,12 +20,13 @@ export default class LazyLoadModule extends React.Component {
   async componentDidMount() {
     try {
       console.log(this.props);
-
       const { resolve } = this.props;
       const { default: module } = await resolve();
-
-      // const { name, reducers } = module;
       console.log(module);
+      const { name, view, reducer } = module;
+      console.log(this.context);
+
+      injectAsyncReducers(this.context.store, name, reducer);
 
       this.setState({ module });
     } catch (error) {
@@ -29,25 +34,19 @@ export default class LazyLoadModule extends React.Component {
     }
   }
 
-  // componentWillUnmount() {
-  //   const { module } = this.state;
-  // }
-
   render() {
     const { module, hasError } = this.state;
     const { resolve, ...rest } = this.props;
     if (hasError) return <div>{hasError.message}</div>;
     if (!module) return <div>Loading module...</div>;
-
     if (module.view) return React.createElement(module.view, rest);
-
     return <div>Module loaded</div>;
   }
 }
 
-LazyLoadModule.contextTypes = {
-  store: PropTypes.object
-};
+// LazyLoadModule.contextTypes = {
+//   store: PropTypes.object
+// };
 
 // LazyLoadModule.propTypes = {
 //   resolve: PropTypes.instanceOf(Promise).isRequired

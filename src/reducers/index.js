@@ -1,7 +1,11 @@
-import module2 from "./module2";
+import { combineReducers } from "redux";
+import headerReducers from "./headerReducers";
 
-const AllReducers = {
-  module2: module2
-};
+export default function createReducer(asyncReducers) {
+  console.log(asyncReducers);
 
-export default AllReducers;
+  return combineReducers({
+    headers: headerReducers,
+    ...asyncReducers
+  });
+}
