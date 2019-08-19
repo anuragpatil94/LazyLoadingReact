@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import { ReactReduxContext } from "react-redux";
 import { injectAsyncReducers } from "./../store";
 
@@ -23,7 +22,7 @@ export default class LazyLoadModule extends React.Component {
       const { resolve } = this.props;
       const { default: module } = await resolve();
       console.log(module);
-      const { name, view, reducer } = module;
+      const { name, reducer } = module;
       console.log(this.context);
 
       injectAsyncReducers(this.context.store, name, reducer);
